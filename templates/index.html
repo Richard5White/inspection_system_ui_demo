@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>检测数据分析系统</title>
+
+<link rel="stylesheet" href="/static/css/style.css">
+
+<script src="/static/js/api.js"></script>
+
+</head>
+
+<body>
+
+<div class="header">
+
+检测数据分析系统
+
+</div>
+
+<div class="container">
+
+<div class="sidebar">
+
+<a href="/">Dashboard</a>
+<a href="/manufacturers">厂家管理</a>
+<a href="/products">产品型号</a>
+<a href="/batches">检测批次</a>
+<a href="/analysis">指标统计</a>
+
+</div>
+
+<div class="content">
+
+<h2>系统概览</h2>
+
+<div class="card-container">
+
+<div class="card">
+<h3>厂家数量</h3>
+<p id="manufacturerCount"></p>
+</div>
+
+<div class="card">
+<h3>产品型号</h3>
+<p id="productCount"></p>
+</div>
+
+<div class="card">
+<h3>检测批次</h3>
+<p id="batchCount"></p>
+</div>
+
+<div class="card">
+<h3>检测记录</h3>
+<p id="recordCount"></p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+async function loadDashboard(){
+
+let data = await apiGet("/dashboard/overview")
+
+let d = data.data
+
+document.getElementById("manufacturerCount").innerText = d.manufacturerCount
+document.getElementById("productCount").innerText = d.productCount
+document.getElementById("batchCount").innerText = d.batchCount
+document.getElementById("recordCount").innerText = d.recordCount
+
+}
+
+loadDashboard()
+
+</script>
+
+</body>
+
+</html>
