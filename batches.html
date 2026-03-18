@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>检测批次</title>
+
+<link rel="stylesheet" href="/static/css/style.css">
+
+<script src="/static/js/api.js"></script>
+
+</head>
+
+<body>
+
+<div class="header">检测数据分析系统</div>
+
+<div class="container">
+
+<div class="sidebar">
+
+<a href="/">Dashboard</a>
+<a href="/manufacturers">厂家管理</a>
+<a href="/products">产品型号</a>
+<a href="/batches">检测批次</a>
+<a href="/analysis">指标统计</a>
+
+</div>
+
+<div class="content">
+
+<h2>检测批次</h2>
+
+<div class="card">
+
+厂家ID
+<input id="manufacturerId">
+
+产品ID
+<input id="productId">
+
+<button onclick="loadBatches()">查询</button>
+
+</div>
+
+<br>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>批次ID</th>
+<th>批次号</th>
+<th>厂家</th>
+<th>产品型号</th>
+<th>检测日期</th>
+<th>样本数</th>
+
+</tr>
+
+</thead>
+
+<tbody id="batchTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+async function loadBatches(){
+
+let m=document.getElementById("manufacturerId").value || ""
+let p=document.getElementById("productId").value || ""
+
+let data=await apiGet(`/batches?manufacturerId=${m}&productId=${p}`)
+
+let html=""
+
+data.data.batches.forEach(b=>{
+
+html+=`
+<tr>
+<td>${b.batchId}</td>
+<td>${b.batchNo}</td>
+<td>${b.manufacturerName}</td>
+<td>${b.productModel}</td>
+<td>${b.inspectionDate}</td>
+<td>${b.sampleCount}</td>
+</tr>
+`
+
+})
+
+document.getElementById("batchTable").innerHTML=html
+
+}
+
+window.onload=loadBatches
+
+</script>
+
+</body>
+</html>

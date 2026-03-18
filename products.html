@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>产品型号管理</title>
+
+<link rel="stylesheet" href="/static/css/style.css">
+
+<script src="/static/js/api.js"></script>
+
+</head>
+
+<body>
+
+<div class="header">
+
+检测数据分析系统
+
+</div>
+
+<div class="container">
+
+<!-- 左侧菜单 -->
+
+<div class="sidebar">
+
+<a href="/">Dashboard</a>
+<a href="/manufacturers">厂家管理</a>
+<a href="/products">产品型号</a>
+<a href="/batches">检测批次</a>
+<a href="/analysis">指标统计</a>
+
+</div>
+
+<!-- 内容区 -->
+
+<div class="content">
+
+<h2>产品型号列表</h2>
+
+<div class="card">
+
+厂家ID
+
+<input id="manufacturerId" placeholder="输入厂家ID">
+
+<button onclick="loadProducts()">查询</button>
+
+</div>
+
+<br>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>产品ID</th>
+<th>产品型号</th>
+<th>产品类型</th>
+<th>厂家ID</th>
+<th>厂家名称</th>
+
+</tr>
+
+</thead>
+
+<tbody id="products"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+async function loadProducts(){
+
+let manufacturerId = document.getElementById("manufacturerId").value || ""
+
+let data = await apiGet(`/products?manufacturerId=${manufacturerId}`)
+
+let rows=""
+
+if(data.data && data.data.products){
+
+data.data.products.forEach(p=>{
+
+rows+=`
+<tr>
+
+<td>${p.productId}</td>
+<td>${p.productModel}</td>
+<td>${p.productType}</td>
+<td>${p.manufacturerId}</td>
+<td>${p.manufacturerName}</td>
+
+</tr>
+`
+
+})
+
+}
+
+document.getElementById("products").innerHTML=rows
+
+}
+
+/* 页面加载自动查询 */
+
+window.onload=loadProducts
+
+</script>
+
+</body>
+
+</html>
